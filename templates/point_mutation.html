@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}DNAmut{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right" style="display: flex; align-items: center;">
+                    <li role="presentation"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li role="presentation" class="active"><a href="{{ url_for('point_mutation') }}">Design</a></li>
+                    <li role="presentation"><a href="{{ url_for('manual') }}">Manual</a></li>
+                    <li role="presentation">
+                        <a href="https://www.usc.edu">
+                        <img src="{{ url_for('static', filename='img/USClogo.png') }}" alt="USClogo" class="img-fluid" style="height: 40px; margin: 0;">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">DNAmut</h3>
+        </div>
+        
+
+        <div class="jumbotron" id="shorter-jumbotron" style="background-image: url({{ url_for('static', filename='img/DNA_banner3.png') }});">
+            <h1>Mutation Design</h1>
+            <p class="lead">Interactive mutation design with DNA sequence and shape considerations </p><br>
+            <a class="btn btn-lg btn-success" href="{{ url_for('manual') }}#section3" role="button">Show examples</a>
+        </div>
+
+
+        <div class="row marketing">
+            <div class="col-lg-6">
+                
+                <!-- input WT sequence -->
+                <label for="inputString">Input a wildtype DNA Sequence (A, C, G, T):</label><br>
+                <textarea id="inputString" class="resizable-textarea" rows="1"></textarea><br><br>
+
+
+                <!-- input list for positions to mutate -->
+                <label for="mutList">Specify positions to introduce mutations:</label><br>
+                <input type="text" id="mutList"><br><br>
+
+       
+                <div class="form-group">
+                <!-- Dropdown selection menu for shape Feature -->
+                    <label for="shapeName">Select a DNA shape parameter:</label><br>
+                    <select id="shapeName">
+                        <optgroup label="Groove Features" style="background-color: #e6f7ff;">
+                            <option value="MGW" style="font-weight: bold;">MGW</option>
+                            <option value="EP" style="font-weight: bold;">EP</option>
+                        </optgroup>
+                        <optgroup label="Intra-base-pair Features" style="background-color: #e6ffec;">
+                            <option value="Shear">Shear</option>
+                            <option value="Stretch">Stretch</option>
+                            <option value="Stagger">Stagger</option>
+                            <option value="Buckle">Buckle</option>
+                            <option value="ProT" style="font-weight: bold;">ProT</option>
+                            <option value="Opening">Opening</option>
+                        </optgroup>
+                        <optgroup label="Inter-base-pair Features" style="background-color: #fbffe6;">
+                            <option value="Shift">Shift</option>
+                            <option value="Slide">Slide</option>
+                            <option value="Rise">Rise</option>
+                            <option value="Tilt">Tilt</option>
+                            <option value="Roll" style="font-weight: bold;">Roll</option>
+                            <option value="HelT" style="font-weight: bold;">HelT</option>
+                        </optgroup>
+                    </select><br>
+                </div>
+
+                <div>
+                    <button id="toggleAdvancedSettings" onclick="openAdvancedSettings()">
+                        <span id="buttonIcon">▶</span>Open advanced settings
+                    </button><br><br>
+
+                </div>
+
+                <div id="advancedSettings" style="display: none;">
+                    <div>
+                    <!-- input list for positions used to calculate distance -->
+                        <label for="distPosList">Specify shape focal positions (default: use all positions):</label><br>
+                        <input type="text" id="distPosList"><br><br>
+                    </div>
+
+                    <div>    
+                    <!-- shape metrics -->
+                        <label for="shapeMetric">Metric for shape distance calculation:</label><br>
+                        <select id="shapeMetric">
+                            <option value="euclidean">Euclidean distance</option>
+                            <option value="pearson">Pearson's correlation</option>
+                        </select><br>
+                        <input type="checkbox" id="shapeNormCheckBox">
+                        <label for="shapeNormCheckBox">Normalize shape distance</label><br><br>
+                    </div>
+
+                    <div>
+                    <!-- base metrics -->
+                        <label for="baseMetric">Metric for base distance calculation:</label><br>
+                        <select id="baseMetric">
+                            <option value="physchem">Physical-chemical encoding distance</option>
+                            <option value="levenshtein">Levenshtein distance/Edit distance</option>
+                        </select><br>
+                        <input type="checkbox" id="baseNormCheckBox">
+                        <label for="baseNormCheckBox">Normalize base distance</label><br>
+                        <input type="checkbox" id="rcZeroBaseDistCheckBox">
+                        <label for="rcZeroBaseDistCheckBox">Consider the RC strand as having 0 distance</label><br><br>
+                    </div>
+                </div> <!-- advanced settings -->
+
+                <div class="button-container">
+                <!-- Button to trigger the submission of the input -->
+                    <button id="submitButton" onclick="submitInput()">Submit</button>
+                </div>
+
+            </div> <!-- col-lg-6 -->
+
+
+            <div class="col-lg-6">
+                <img src="{{ url_for('static', filename='img/shape_parameters.png') }}" alt="DNA shape parameters" class="img-responsive">
+            </div> <!-- col-lg-6 -->
+
+        </div> <!-- row marketing -->
+
+
+        <div class="button-container">
+            <!-- Loading spinner -->
+            <div id="loadingSpinner" style="display: none;">
+                <img src="{{ url_for('static', filename='img/loading.gif') }}" alt="Loading..." width="200" height="150">
+                <p>Mutating in silico...</p>
+            </div>
+        </div>
+
+        
+
+            
+
+
+        
+        <!-- <h4> Results will be displayed below </h4> -->
+        
+        <div class="plots">
+            <div id="plot"></div><br><br>
+        </div>
+
+        <div class="plots">
+            <div id="plot_candidate"></div><br><br>
+        </div>
+
+        <div class="plots">
+            <div id="plot_candidate_baseReadout_Mut"></div><br><br>
+        </div>
+
+        <div class="plots">
+            <div id="plot_candidate_baseReadout_WT"></div><br><br>
+        </div>
+
+
+    
+
+
+    </div>  <!-- container -->
+
+{% endblock %}
+
+
+
+{% block scripts %}
+    
+    <!-- define the correct dyanmic url link for "axios.post" part in point_mutation.js. use this url to send to /predict route in Flask -->
+    <script>
+        const predict_Url = "{{ url_for('predict') }}";  // This gets processed by Jinja
+        const plot_candidate_Url = "{{ url_for('plot_candidate') }}";
+        const plot_candidate_baseReadout_Url = "{{ url_for('plot_candidate_baseReadout') }}";
+    </script>
+
+    <!-- Include point_mutation.js for functions specific to point mutation page -->
+    <script src="{{ url_for('static', filename='js/point_mutation.js') }}"></script>
+
+{% endblock %}

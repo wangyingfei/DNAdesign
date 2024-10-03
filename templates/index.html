@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}DNAmut{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right" style="display: flex; align-items: center;">
+                    <li role="presentation" class="active"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li role="presentation"><a href="{{ url_for('point_mutation') }}">Design</a></li>
+                    <li role="presentation"><a href="{{ url_for('manual') }}">Manual</a></li>
+                    <li role="presentation">
+                        <a href="https://www.usc.edu">
+                        <img src="{{ url_for('static', filename='img/USClogo.png') }}" alt="USClogo" class="img-fluid" style="height: 40px; margin: 0;">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        
+        <h3 class="text-muted">DNAmut</h3>
+
+        </div>
+
+    
+        <div class="jumbotron" style="background-image: url({{ url_for('static', filename='img/DNA_banner3.png') }});">
+            <h1>DNAmut</h1>
+            <p class="lead">Feature-aware in silico design of synthetic DNA through mutation</p>
+            <a class="btn btn-lg btn-success" href="{{ url_for('point_mutation') }}" role="button">Design mutation sequence</a>
+        </div> 
+
+        <img src="{{ url_for('static', filename='img/DNAmut_website.png') }}" alt="graphical summary" class="img-responsive">
+
+
+    </div>  <!-- container -->
+
+{% endblock %}
+    
+
+
+
+{% block scripts %}
+
+{% endblock %}

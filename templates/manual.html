@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}DNAmut{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="header">
+            <nav>
+                <ul class="nav nav-pills pull-right" style="display: flex; align-items: center;">
+                    <li role="presentation"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li role="presentation"><a href="{{ url_for('point_mutation') }}">Design</a></li>
+                    <li role="presentation" class="active"><a href="{{ url_for('manual') }}">Manual</a></li>
+                    <li role="presentation">
+                        <a href="https://www.usc.edu">
+                        <img src="{{ url_for('static', filename='img/USClogo.png') }}" alt="USClogo" class="img-fluid" style="height: 40px; margin: 0;">
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <h3 class="text-muted" style="margin: 0;">DMAmut</h3>
+        </div>  
+    
+        <div class="jumbotron" id="shorter-jumbotron" style="background-image: url({{ url_for('static', filename='img/DNA_banner3.png') }});">
+            <h1>User Manual</h1>
+        </div>
+
+        <h1 id="section1"> 1. DNA shape parameters and base encoding</h1>
+        <div class="plots">
+            <div id="plot1" style="text-align: center;">
+                <img src="{{ url_for('static', filename='img/manual1_readout.png') }}" alt="DNA readout mechanisms illustration" class="img-responsive" style="display: block; margin: 0 auto;">
+            </div>
+        </div>
+        <p style="line-height: 1.5; font-size: 18px;"> 
+            In this work, DNA shape refers to a set of 14 metrics that describe the structural or biophysical measurements along the DNA double helix. The 14 DNA shape parameters include 6 intra-base pair parameters, 6 inter-base pair parameters, and 2 groove parameters. Intra-base pair parameters quantify the relative positions of the two bases in a base pair: shear, stretch, stagger, buckle, propeller twist (ProT), and opening. Inter-base pair parameters quantify the relative positions of two neighboring base pairs: shift, slide, rise, tilt, roll, and helical twist (HelT). The 2 groove parameters are minor groove width (MGW) and electrostatic potential (EP). MGW is the distance between the backbones of two strands measured as a specific base pair. A detailed definition is discussed in (Rohs et al., 2009; Zhou et al., 2013; Li et al., 2017). EP is the predicted electrostatic potential at the center of the double helix at a specific base pair. A detailed definition is discussed in (Chiu et al., 2017) <br>
+            For base readout, each base pair is represented as the functional groups on the bases that make direct contact with protein side chains. The functional groups include hydrogen bond donor, hydrogen bond acceptor, non-polar hydrogen, and methyl group.
+        </p>
+        <br><br>
+
+
+        <h1 id="section2">2. Advanced settings</h1>
+        <div class="plots">
+            <div id="plot2" style="text-align: center;">
+                <img src="{{ url_for('static', filename='img/manual2_advSettings.png') }}" alt="DNA readout mechanisms illustration" class="img-responsive" style="display: block; margin: 0 auto;">
+            </div>
+        </div>
+        <p style="line-height: 1.5; font-size: 18px;"> 
+            DNAmut provides a few advanced setting options: shape focal points, shape distance metric, shape distance normalization, base distance metric, base distance normalization, and reverse complement strand handling.
+        </p>
+            
+            <h2>2.1 Shape focal points </h2>  
+            <p style="line-height: 1.5; font-size: 18px;">
+            Users can choose specific positions as the shape focal points. DNAmut allows both single-position input and selection of a range of positions. By default, DNAmut uses shape parameters across the entire sequence to calculate shape distance between wildtype and a specific mutation candidate sequence, for example, when using Euclidean distance:
+            <img src="{{ url_for('static', filename='img/manual2_1_1.png') }}" alt="Euclidean distance formula" class="img-responsive" style="display: block; margin: 0 auto;">
+            Where 
+            <img src="{{ url_for('static', filename='img/manual2_1_2.png') }}" alt="Euclidean distance formula vector1" class="img-responsive" style="display: inline;"> denotes the shape parameter of the wild-type sequence of length n, and
+            <img src="{{ url_for('static', filename='img/manual2_1_3.png') }}" alt="Euclidean distance formula vector2" class="img-responsive" style="display: inline;"> denotes the shape parameter of a mutation candidate which is also of length n.<br>
+
+            When the user inputs shape focal positions, the Euclidean distance is calculated as:
+            <img src="{{ url_for('static', filename='img/manual2_1_4.png') }}" alt="Euclidean distance formula using specified shape focal positions" class="img-responsive" style="display: block; margin: 0 auto;">
+            Where 
+            <img src="{{ url_for('static', filename='img/manual2_1_5.png') }}" alt="Euclidean distance formula using specified shape focal positions - vector1" class="img-responsive"style="display: inline;"> denotes the shape parameters corresponds to the p1,p2, … ,pm position of the input wild type sequence,
+            <img src="{{ url_for('static', filename='img/manual2_1_6.png') }}" alt="Euclidean distance formula using specified shape focal positions - vector2" class="img-responsive" style="display: inline;"> denotes the shape parameter of a mutation candidate, and p1,p2 … pm correspond to user input shape focal positions.<br> 
+
+            For example, if the input wildtype sequence is ATTCCGAT, the shape focal points are 2,5,7, then:
+            <img src="{{ url_for('static', filename='img/manual2_1_7.png') }}" alt="Euclidean distance formula with shape focal positions example" class="img-responsive" style="display: block; margin: 0 auto;">
+            Where
+            <img src="{{ url_for('static', filename='img/manual2_1_8.png') }}" alt="Euclidean distance formula with shape focal positions example - vector1" class="img-responsive" style="display: inline;"> denotes the shape parameters correspond the 2nd, 5th, and 7th positions of the wild-type sequence, and
+            <img src="{{ url_for('static', filename='img/manual2_1_9.png') }}" alt="Euclidean distance formula with shape focal positions example - vector2" class="img-responsive" style="display: inline;"> denotes the shape parameter of the 2nd, 5th, and 7th position of a mutation candidate.
+            </p>
+
+            <h2>2.2 Shape readout distance metrics </h2>
+            <p style="line-height: 1.5; font-size: 18px;">
+            For shape distance metric, DNAmut uses Euclidean distance as default and also allows users to choose Pearson’s correlation coefficient as the shape distance metric. Specifically:
+            <img src="{{ url_for('static', filename='img/manual2_2_1.png') }}" alt="Pearson's correlation coefficient formula" class="img-responsive" style="display: block; margin: 0 auto;">
+            Where 
+            <img src="{{ url_for('static', filename='img/manual2_2_2.png') }}" alt="Pearson's correalation coefficient formula component" class="img-responsive" style="display: inline;"> denotes the shape parameter corresponding to the ith position of the wild-type sequence, and
+            <img src="{{ url_for('static', filename='img/manual2_2_3.png') }}" alt="Pearson's correalation coefficient formula component" class="img-responsive" style="display: inline;">. The same notation method is used for the mutation sequences. When shape focal points are specified, DNAmut will only use the selected positions to calculate Pearson’s correlation coefficient.<br>
+            DNA shape parameters vary in scale, DNAmut provides an option to display normalized shape distance in the scatter plot that compares all mutation candidates:
+            <img src="{{ url_for('static', filename='img/manual2_2_4.png') }}" alt="shape distance normalization formula" class="img-responsive" style="display: block; margin: 0 auto;">
+            Where 
+            <img src="{{ url_for('static', filename='img/manual2_2_5.png') }}" alt="min and max of shape distances between mut candidate and wt" class="img-responsive" style="display: inline;"> are the smallest and largest shape distances to the input wild type among all possible mutation candidates.
+            </p>
+
+            <h2>2.3 Base readout representation and base readout distance calculation </h2>
+            <p style="line-height: 1.5; font-size: 18px;">
+            For base readout representation, DNAmut represents sequences numerically with the physical-chemical encoding method by default:<br>
+            Adenine (A):<br>
+            major groove: [0,0,0,1, 0,0,1,0, 0,0,0,1, 0,1,0,0],<br>
+            Minor groove: [0,0,0,1, 1,0,0,0, 0,0,0,1],<br>
+            Cytosine (C): <br>
+            Major groove: [1,0,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,1], <br>
+            Minor groove: [0,0,0,1, 0,0,1,0, 0,0,0,1],<br>
+            Guanine (G): <br>
+            Major groove: [0,0,0,1, 0,0,0,1, 0,0,1,0, 1,0,0,0], <br>
+            Minor groove: [0,0,0,1, 0,0,1,0, 0,0,0,1],<br>
+            Thymine (T): <br>
+            Major groove: [0,1,0,0, 0,0,0,1, 0,0,1,0, 0,0,0,1], <br>
+            Minor groove: [0,0,0,1, 1,0,0,0, 0,0,0,1],<br>
+            At any given position, the distance between two distinct bases is calculated as:
+            <img src="{{ url_for('static', filename='img/manual2_3_1.png') }}" alt="formula of base distance between two distinct bases" class="img-responsive" style="display: block; margin: 0 auto;">
+            Where B1 and B2 are nucleotides among A, C, G, T, and
+            <img src="{{ url_for('static', filename='img/manual2_3_2.png') }}" alt="B1 major, B1 minor, B2 major, B2 minor" class="img-responsive" style="display: inline;"> are either 0 or 1, corresponding to the encoding shown above. M denotes the major groove encoding, and m denotes the minor groove encoding. For example,
+            <img src="{{ url_for('static', filename='img/manual2_3_3.png') }}" alt="base distance between Adenine and Guanine" class="img-responsive" style="display: block; margin: 0 auto;"> and base distance between the wildtype sequence of length n and a mutation candidate is
+            <img src="{{ url_for('static', filename='img/manual2_3_4.png') }}" alt="base distance between a wt sequence and a mut sequence" class="img-responsive" style="display: block; margin: 0 auto;"> where
+            <img src="{{ url_for('static', filename='img/manual2_3_5.png') }}" alt="WT i and Mut i" class="img-responsive" style="display: inline;"> denotes the base corresponds to the ith position of the wildtype and mutation candidate sequence respectively. <br>
+            In addition to physical-chemical encoding, DNAmut also provides the users with the option to represent DNA with the one-hot encoding method: <br>
+            A: [1,0,0,0], C: [0,1,0,0], G: [0,0,1,0], T: [0,0,0,1] <br>
+            The base distance is calculated in the same way as described above, with
+            <img src="{{ url_for('static', filename='img/manual2_3_5.png') }}" alt="base distance between b1 and b2" class="img-responsive" style="display: inline;"> for all B1 and B2 when B1≠B2.<br>
+            For base distance calculation, DNAmut also provides users with the option to use the edit distance, or Levenshtein distance, which is the minimum number of insertions, deletions, or substitutions required to modify one sequence to another. DNAmut calculates Levenshtein distance using the python C extension module python-levenshtein, publicly available through pip (Bachmann, 2021). <br>
+            Regardless of the base encoding method and base distance metric choice, users can choose to display the normalized base distance on the global comparison graph. The normalization method is the same as in shape distance normalization.
+            </p>
+            <br><br>
+
+
+        <h1 id="section3" class="scroll-top-adjust">3. Application case studies</h1>
+        <h2>3.1 Design a high-affinity Fis binding site </h2>
+        <p style="line-height: 1.5; font-size: 18px;">
+            Fis is an abundant nucleoid protein that primarily interacts with DNA through backbone contact and identifies target sites by sensing DNA conformation. Research indicates that the DNA sequence affects Fis-DNA interaction, particularly through the sequence-dependent minor groove width (MGW) characteristics in the center and flanking regions of the binding sites. Specifically, an A/T-rich center (-2 to +2) is crucial due to its compressed minor groove, which shortens the distance between neighboring major grooves and facilitates contacts between DNA and the recognition helices of Fis (Hancock et al., 2013, 2016; Chiu et al., 2017)<br>
+            Based on the shape-sensing characteristics of Fis, one can use DNAmut to design a DNA sequence with increased Fis binding affinity. We use two sequences with different binding affinities (a high-affinity sequence with Kd = 0.2 nM and a low-affinity with Kd = 140 nM) from Chiu et al., 2017 as an example. We take the lower affinity sequence as the input to DNAmut, choose MGW as the shape parameter, and select shape focal points from -4bp to +4bp. From the output of DNAmut, we identify the top 3 candidates that minimize the central MGW. We found that all 3 candidates harbor the mutation from a C/G rich center to A/T rich at the -2 and +2 positions. One candidate matches the higher affinity sequence with the AATTT center.<br>
+            <div class="plots">
+                <div id="plot2" style="text-align: center;">
+                <img src="{{ url_for('static', filename='img/manual3_Fis.png') }}" alt="DNA readout mechanisms illustration" class="img-responsive" style="display: block; margin: 0 auto;">
+                </div>
+            </div>
+        </p>
+        <h2>3.2 Design shape-perturbing DNA oligos to test for DNA shape preference of GTGCAC-binding TF AP2 </h2>
+        <p style="line-height: 1.5; font-size: 18px;">
+            ApiAP2 family is the largest and best-characterized transcription factors family in the human malaria parasite Plasmodium falciparum. AP2, the DNA-binding domain of ApiAP2, can bind to either CACACA or GTGCAC DNA sequence motifs. Bonnell et al found that the GTGCAC-binding AP2 binds to three extended motifs (AGAGCATTA, GGTGCAC, and TGTGCAC) with distinct DNA shape readout patterns. To test if shape readout changes lead to altered AP2-DNA binding, Bonnell et al selected DNA oligos to maximize shape readout change while controlling the number of point mutations (Bonnell et al., 2024). The authors performed EMSA with designed DNA oligos and concluded that AP2 binding to a high-affinity site does require specific shapes of distal flanking sequence. <br>
+            DNAmut is perfectly suited to assist researchers with such design needs. Based on Bonnell et al, we input GAGACCAGTGCATTATTAGTT as the wild-type sequence to DNAmut, select the 6 positions flanking the AGTGCATTA core as mutation sites, and choose MGW as the DNA shape parameter. We choose Levenshtein distance as the metric for base distance as in Bonnell et al. From the output of DNAmut, we show that the mutation designs used in Bonnell et al are indeed among the top shape mutation candidates given a required number of point mutations. We want to highlight that DNAmut also provides a global comparison of all 4^7-1 possible mutation designs for this application, allowing a straightforward and comprehensive view for selecting desired mutation oligos.<br>
+            <div class="plots">
+                <div id="plot2" style="text-align: center;">
+                <img src="{{ url_for('static', filename='img/manual4_AP2.png') }}" alt="DNA readout mechanisms illustration" class="img-responsive" style="display: block; margin: 0 auto;">
+                </div>
+            </div>
+        </p>
+        <br><br>
+
+        <h1 id="section4"> References</h1>
+        <p style="line-height: 1.5; font-size: 18px;"> 
+            Bachmann,M. (2021) python-Levenshtein: Python extension for computing string edit distances and similarities.<br>
+            Bonnell,V.A. et al. (2024) DNA sequence and chromatin differentiate sequence-specific transcription factor binding in the human malaria parasite Plasmodium falciparum. Nucleic Acids Research, 2024, 2024.<br>
+            Chiu,T.P. et al. (2017) Genome-wide prediction of minor-groove electrostatic potential enables biophysical modeling of protein–DNA binding. Nucleic Acids Research, 45, 12565–12576.<br>
+            Hancock,S.P. et al. (2013) Control of DNA minor groove width and Fis protein binding by the purine 2-amino group. Nucleic Acids Research, 41, 6750–6760.<br>
+            Hancock,S.P. et al. (2016) DNA Sequence Determinants Controlling Affinity, Stability and Shape of DNA Complexes Bound by the Nucleoid Protein Fis. PLOS ONE, 11, e0150189.<br>
+            Li,J. et al. (2017) Expanding the repertoire of DNA shape features for genome-scale studies of transcription factor binding. Nucleic Acids Research, 45, 12877–12887.<br>
+            Rohs,R. et al. (2009) The role of DNA shape in protein–DNA recognition. Nature 2009 461:7268, 461, 1248–1253.<br>
+            Zhou,T. et al. (2013) DNAshape: a method for the high-throughput prediction of DNA structural features on a genomic scale. Nucleic Acids Research, 41, W56–W62.<br><br><br>
+        </p>
+    </div> <!-- /container -->
+
+{% endblock %}
+
+
+{% block scripts %}
+
+    <!-- Include main.js for common functions -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+{% endblock %}

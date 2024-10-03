@@ -1,0 +1,228 @@
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 20px;
+  line-height: 40px; /* Make the masthead heading the same height as the navigation */
+}
+
+/* Custom page footer */
+.footer {
+  /*color: #777; */
+  border-top: 1px solid #e5e5e5;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f9fa; /* Example background color */
+  padding: 10px; /* Example padding */
+  text-align: center; /* Center align text */
+  border-top: 1px solid #e5e5e5; /* Example border */
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 2000px;
+    align-items: center; /* Center align content vertically */
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+  align-items: center; /* Center align content vertically */
+}
+
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+  background-image: url("/static/img/DNA_banner1.png");
+  background-size: cover;
+  color: white; /* Text color */
+  min-height: 400px; /* Ensures a minimum height for the jumbotron */
+  text-align: center; /* Center text alignment */
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 30px; /* Add padding as needed */
+  box-sizing: border-box;
+}
+
+
+/* Shorter jumbotron for a specific page */
+#shorter-jumbotron {
+  min-height: 300px; /* Adjust the height for this specific jumbotron */
+  padding: 20px; /* Optionally adjust padding if needed */
+}
+
+
+/* added to add shaded box under the texts in jumbotron */
+.jumbotron::before {
+  content: "";
+  position: absolute;
+  top: 20px; /* Adjust based on the padding */
+  left: 20px; /* Adjust based on the padding */
+  right: 20px; /* Adjust based on the padding */
+  bottom: 20px; /* Adjust based on the padding */
+  background: rgba(128, 128, 128, 0.5); /* Grey background with 50% opacity */
+  z-index: 1;
+  border-radius: 10px; /* Optional: rounded corners */
+}
+
+.jumbotron > * {
+  position: relative;
+  z-index: 2;
+}
+
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+
+/* Supporting marketing content */
+.marketing {
+  margin: 10px 0;
+  background-color: #e3f2fd; /* Light blue background color */
+  padding-block: 20px;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .header {
+    margin-bottom: 30px;
+  }
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+
+
+/* Resizable textarea */
+.resizable-textarea {
+  resize: both; /* Allow both horizontal and vertical resizing */
+  overflow: auto; /* Show scrollbars if content exceeds textarea size */
+  width: 600px; /* Set initial width */
+  height: 100px; /* Set initial height */
+  min-width: 100px; /* Set minimum width */
+  min-height: 50px; /* Set minimum height */
+  max-width: 500px; /* Set maximum width */
+  max-height: 300px; /* Set maximum height */
+
+  /* Modern design styles */
+  padding: 10px; /* Add padding inside the textarea */
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  font-family: 'Arial', sans-serif; /* Modern font family */
+  font-size: 16px; /* Font size for readability */
+  color: #333; /* Text color */
+  background-color: #f9f9f9; /* Light background color */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+}
+/* Hover and focus states */
+.resizable-textarea:hover,
+.resizable-textarea:focus {
+  border-color: #007bff; /* Blue border on hover/focus */
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3); /* Stronger shadow on hover/focus */
+  outline: none; /* Remove default outline */
+}
+
+.sticky-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #333; /* Or any color you prefer */
+  color: white; /* Text color */
+  text-align: center;
+  padding: 10px 0; /* Adjust padding as needed */
+  z-index: 100; /* Ensures it appears above other content */
+}
+
+
+.button-container {
+  text-align: center; /* Center align the button */
+  margin-top: 20px; /* Example margin for spacing */
+}
+
+#submitButton {
+  background-color: #007bff; /* Blue background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Padding inside the button */
+  font-size: 16px; /* Font size of the text */
+  border: none; /* Remove default button border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor style */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+#submitButton:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:focus {
+  outline: none;
+}
+
+#buttonIcon {
+  margin-right: 10px; /* Space between icon and text */
+  transition: transform 0.3s;
+}
+
+
+
+.scroll-top-adjust {
+  scroll-margin-top: 70px; /* Adjust this value based on your fixed header height */
+}
